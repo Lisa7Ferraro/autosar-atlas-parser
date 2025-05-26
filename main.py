@@ -45,9 +45,8 @@ if __name__ == "__main__":
     pages_full = load_pdf(INPUT_PDF, remove_header=False)
 
     # セクションをPDF内容から動的に検出
-    # detect_sections は Table of Contents などのキー文字列を手掛かりに
-    # RS_Diag, RS_Main の範囲を推定する
-    ranges = detect_sections(pages_full, return_indices=True)
+    # フォントサイズに基づく見出し解析で各セクションを特定する
+    ranges = detect_sections(pages_full, pdf_path=INPUT_PDF, return_indices=True)
 
     # Load header-trimmed pages for actual parsing
     pages = load_pdf(INPUT_PDF, remove_header=True)

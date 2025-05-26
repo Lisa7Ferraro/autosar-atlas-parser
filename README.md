@@ -68,6 +68,7 @@ python3 main.py
 - `src/rs_parser.py`: 要件ブロックのパース
 - `src/output_writer.py`: JSONファイル書き出し
 - `src/trace_parser.py`: トレース表パース
+- `src/section_detector.py`: フォントサイズから見出しを抽出し各セクションを決定
 - `main.py`: セクション単位で処理を組み合わせて実行
 
 ## ライセンス
