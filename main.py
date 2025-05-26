@@ -4,6 +4,7 @@ from src.block_extractor import extract_blocks
 from src.rs_parser import parse_requirement_block
 from src.output_writer import write_json
 from src.trace_parser import parse_trace_table
+from src.section_detector import detect_sections
 
 INPUT_PDF = "AUTOSAR_RS_Diagnostics.pdf"
 OUTPUT_JSON_DIAG = "output/rs_diagnostics.json"
@@ -41,11 +42,10 @@ def extract_metadata(title_page_text):
 if __name__ == "__main__":
     pages = load_pdf(INPUT_PDF)
 
-    # セクション分割（ページは0-based index）
-    title_section = pages[0:1]       # ページ1
-    toc_section = pages[5:11]        # ページ6〜11
-    doc_section = pages[11:69]       # ページ12〜69（RS_Diag）
-    trace_section = pages[69:72]     # ページ70〜72（RS_Main）
+    # セクションをPDF内容から動的に検出
+    # detect_sections は Table of Contents などのキー文字列を手掛かりに
+    # RS_Diag, RS_Main の範囲を推定する
+    title_section, toc_section, doc_section, trace_section = detect_sections(pages)
 
     # RS_Diag 要件抽出
     diag_blocks = extract_blocks(doc_section, start_page=0)
