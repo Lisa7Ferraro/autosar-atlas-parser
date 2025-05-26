@@ -32,28 +32,9 @@ def _load_with_plumber(path: str, header_margin: float) -> list:
             pages.append(text)
     return pages
 
-def load_pdf(path: str, *, remove_header: bool = True, header_margin: float = 50) -> list:
-    """Read a PDF and return page texts.
-
 
 def load_pdf(path: str, *, remove_header: bool = False, header_margin: float = 50) -> list:
-    """Read a PDF and return page texts.
 
-    Parameters
-    ----------
-    path : str
-        Path to the PDF file.
-    remove_header : bool, optional
-        When ``True``, exclude the top ``header_margin`` points from each page.
-    header_margin : float, optional
-        Header height in points to remove when ``remove_header`` is ``True``.
-
-
-    Returns
-    -------
-    list[str]
-        Text content of each page.
-    """
     if remove_header:
         try:
             return _load_with_plumber(path, header_margin)
