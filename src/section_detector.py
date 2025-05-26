@@ -1,7 +1,27 @@
+import fitz
 import re
 
 
-def detect_sections(pages, *, return_indices: bool = False):
+def _get_page_heading(page) -> str:
+    """Return heading text for a page based on largest font size."""
+    text_dict = page.get_text("dict")
+    heading = ""
+    max_size = 0.0
+    for block in text_dict.get("blocks", []):
+        if block.get("type") != 0:
+            continue
+        for line in block.get("lines", []):
+            line_text = "".join(span.get("text", "") for span in line.get("spans", []))
+            if not line_text.strip():
+                continue
+            line_size = max(span.get("size", 0) for span in line.get("spans", []))
+            if line_size > max_size:
+                max_size = line_size
+                heading = line_text.strip()
+    return heading
+
+
+def detect_sections(pages, *, pdf_path: str | None = None, return_indices: bool = False):
     """Detect document sections based on page contents.
 
     Parameters
@@ -20,32 +40,47 @@ def detect_sections(pages, *, return_indices: bool = False):
         ``(start, end)`` pairs.
     """
     title_idx = 0
-    toc_start, toc_end = None, None
+    toc_start, doc_start = None, None
     trace_start, trace_end = None, None
 
-    for i, text in enumerate(pages):
-        if toc_start is None and "Table of Contents" in text:
+    headings = []
+    if pdf_path:
+        doc = fitz.open(pdf_path)
+        headings = [_get_page_heading(page) for page in doc]
+        doc.close()
+    else:
+        headings = ["" for _ in pages]
+
+    for i, heading in enumerate(headings):
+        if toc_start is None and re.search(r"Table of Contents", heading, re.I):
             toc_start = i
-        elif "Scope of the Document" in text:
-            toc_end = i
-        if "Requirements Tracing" in text and toc_end is not None and i > toc_end:
+        elif doc_start is None and re.search(r"Requirements Specification", heading, re.I):
+            doc_start = i
+        elif trace_start is None and re.search(r"Requirements tracing", heading, re.I):
             trace_start = i
-            trace_end = min(i + 3, len(pages))  # trace section up to 3 pages long
+            trace_end = min(i + 3, len(pages))
             break
+
+    if toc_start is not None and doc_start is None:
+        # Fallback end of TOC if Requirements Specification heading missing
+        doc_start = toc_start + 1
+    if doc_start is not None and trace_start is None:
+        trace_start = len(pages)
+        trace_end = len(pages)
     
 
     if return_indices:
         return (
             (title_idx, title_idx + 1),
-            (toc_start, toc_end),
-            (toc_end, trace_start),
+            (toc_start, doc_start),
+            (doc_start, trace_start),
             (trace_start, trace_end),
         )
 
     title_section = pages[title_idx:title_idx + 1]
-    toc_section = pages[toc_start:toc_end]
+    toc_section = pages[toc_start:doc_start]
     # Extend RS_Diag a few pages past the trace start to capture cross-page blocks
-    doc_section = pages[toc_end:trace_start]
+    doc_section = pages[doc_start:trace_start]
     trace_section = pages[trace_start:trace_end]
 
     return title_section, toc_section, doc_section, trace_section
