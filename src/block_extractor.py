@@ -1,6 +1,7 @@
 import re
 
 
+
 def extract_blocks(pages, start_page=13):
     """
     ページテキストのリストを受け取り、RS_Diagブロック単位で抽出する。
