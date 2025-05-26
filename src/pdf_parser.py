@@ -35,14 +35,19 @@ def _load_with_plumber(path: str, header_margin: float) -> list:
 def load_pdf(path: str, *, remove_header: bool = True, header_margin: float = 50) -> list:
     """Read a PDF and return page texts.
 
+
+def load_pdf(path: str, *, remove_header: bool = False, header_margin: float = 50) -> list:
+    """Read a PDF and return page texts.
+
     Parameters
     ----------
     path : str
         Path to the PDF file.
     remove_header : bool, optional
-        When ``True`` (default), attempt to exclude header areas from each page.
+        When ``True``, exclude the top ``header_margin`` points from each page.
     header_margin : float, optional
         Header height in points to remove when ``remove_header`` is ``True``.
+
 
     Returns
     -------
@@ -57,5 +62,12 @@ def load_pdf(path: str, *, remove_header: bool = True, header_margin: float = 50
             pass
 
     doc = fitz.open(path)
-    pages = [page.get_text("text") for page in doc]
+    pages = []
+    for page in doc:
+        if remove_header:
+            clip = fitz.Rect(0, header_margin, page.rect.width, page.rect.height)
+            text = page.get_text("text", clip=clip)
+        else:
+            text = page.get_text("text")
+        pages.append(text)
     return pages
