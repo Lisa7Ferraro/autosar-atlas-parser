@@ -5,8 +5,9 @@ from src.rs_parser import parse_requirement_block
 from src.output_writer import write_json
 from src.trace_parser import parse_trace_table
 from src.section_detector import detect_sections
+import os
 
-INPUT_PDF = "AUTOSAR_RS_Diagnostics.pdf"
+INPUT_PDF = os.path.join("samples", "AUTOSAR_RS_Diagnostics.pdf")
 OUTPUT_JSON_DIAG = "output/rs_diagnostics.json"
 OUTPUT_JSON_TRACE = "output/rs_trace.json"
 

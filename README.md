@@ -24,7 +24,9 @@ pip install -r requirements.txt
 ```
 
 ## 使い方
-1. `samples/`ディレクトリにAUTOSAR PDF（例: `AUTOSAR_RS_Diagnostics.pdf`）を配置
+1. `samples/`ディレクトリにAUTOSAR PDF（例: `AUTOSAR_RS_Diagnostics.pdf`）を配置する
+   - リポジトリには空ディレクトリを保持するため`.gitkeep`が含まれています
+   - スクリプトはこの`samples/`フォルダからPDFを読み込みます
 2. 以下のコマンドで実行
 
 ```sh
