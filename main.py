@@ -41,12 +41,22 @@ def extract_metadata(title_page_text):
     return metadata
 
 if __name__ == "__main__":
-    pages = load_pdf(INPUT_PDF)
+    # Load full pages for section detection
+    pages_full = load_pdf(INPUT_PDF, remove_header=False)
 
     # セクションをPDF内容から動的に検出
     # detect_sections は Table of Contents などのキー文字列を手掛かりに
     # RS_Diag, RS_Main の範囲を推定する
-    title_section, toc_section, doc_section, trace_section = detect_sections(pages)
+    ranges = detect_sections(pages_full, return_indices=True)
+
+    # Load header-trimmed pages for actual parsing
+    pages = load_pdf(INPUT_PDF, remove_header=True)
+
+    (title_range, toc_range, doc_range, trace_range) = ranges
+    title_section = pages[title_range[0]:title_range[1]]
+    toc_section = pages[toc_range[0]:toc_range[1]]
+    doc_section = pages[doc_range[0]:doc_range[1]]
+    trace_section = pages[trace_range[0]:trace_range[1]]
 
     # RS_Diag 要件抽出
     diag_blocks = extract_blocks(doc_section, start_page=0)

@@ -1,14 +1,23 @@
 import re
 
 
-def detect_sections(pages):
+def detect_sections(pages, *, return_indices: bool = False):
     """Detect document sections based on page contents.
 
-    Returns tuple of (title_section, toc_section, doc_section, trace_section).
-    The function attempts to locate the Table of Contents and Requirements
-    Tracing sections dynamically. If not found, it falls back to default
-    page ranges. The RS_Diag section may extend a few pages beyond the
-    trace section start to capture requirements spanning multiple pages.
+    Parameters
+    ----------
+    pages : list[str]
+        Page texts in order.
+    return_indices : bool, optional
+        When ``True``, return index ranges instead of text slices.
+
+    Returns
+    -------
+    tuple
+        When ``return_indices`` is ``False`` (default), returns a tuple of
+        (title_section, toc_section, doc_section, trace_section) each as a
+        list of strings. When ``True``, returns their index ranges as
+        ``(start, end)`` pairs.
     """
     title_idx = 0
     toc_start, toc_end = None, None
@@ -28,6 +37,14 @@ def detect_sections(pages):
     toc_end = toc_end or 11
     trace_start = trace_start or 69
     trace_end = trace_end or 72
+
+    if return_indices:
+        return (
+            (title_idx, title_idx + 1),
+            (toc_start, toc_end),
+            (toc_end, trace_end),
+            (trace_start, trace_end),
+        )
 
     title_section = pages[title_idx:title_idx + 1]
     toc_section = pages[toc_start:toc_end]

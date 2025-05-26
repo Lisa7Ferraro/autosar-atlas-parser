@@ -61,8 +61,7 @@ python3 main.py
 }
 ```
 
-## モジュール構成
-- `src/pdf_parser.py`: PDF読み取り（PyMuPDF）
+- `src/pdf_parser.py`: PDF読み取り。PyMuPDFで取得し、必要に応じヘッダ領域を除外
 - `src/block_extractor.py`: タグ単位のテキストブロック抽出
 - `src/rs_parser.py`: 要件ブロックのパース
 - `src/output_writer.py`: JSONファイル書き出し
