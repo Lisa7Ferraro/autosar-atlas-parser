@@ -4,7 +4,9 @@ import fitz  # PyMuPDF
 import pdfplumber
 
 def _load_with_plumber(path: str, header_margin: float) -> list:
+
     """Load PDF text while excluding header regions.
+
 
     Parameters
     ----------
@@ -19,12 +21,14 @@ def _load_with_plumber(path: str, header_margin: float) -> list:
         Text content of each page with headers removed.
     """
     pages = []
+
     with pdfplumber.open(path) as plumber_pdf:
         doc = fitz.open(path)
         for fpage, ppage in zip(doc, plumber_pdf.pages):
             width, height = ppage.width, ppage.height
             rect = fitz.Rect(0, header_margin, width, height)
             text = fpage.get_text("text", clip=rect)
+
             pages.append(text)
     return pages
 
