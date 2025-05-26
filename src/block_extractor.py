@@ -11,7 +11,9 @@ def parse_requirement_block(block: dict) -> dict:
 
     # 各フィールド抽出用正規表現
     fields = ["Description", "Rationale", "Use Case", "AppliesTo", "Dependencies", "Supporting Material"]
-    field_regex = {f: re.compile(rf"{f}:\s*(.*?)\s*(?=(?:{'|'.join(fields)}|c\())", re.DOTALL) for f in fields}
+    # フィールド毎に次のフィールド名または文字列終端までを取得する正規表現
+    pattern = rf"{{f}}:\s*(.*?)\s*(?=(?:{'|'.join(fields)}|$))"
+    field_regex = {f: re.compile(pattern.format(f=f), re.DOTALL) for f in fields}
 
     def extract_field(name):
         match = field_regex[name].search(content)
