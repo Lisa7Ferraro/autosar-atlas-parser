@@ -21,6 +21,7 @@ Python 3.8以降が必要です。
 
 ```sh
 pip install -r requirements.txt
+pip install markitdown  # markitdownがインストールされていない場合
 ```
 
 ## 使い方
@@ -33,6 +34,14 @@ pip install -r requirements.txt
 python3 main.py
 ```
 
+ヘッダとフッタを除去した上で [`markitdown`](https://github.com/yuukiw/markitdown)
+ を利用してJSON化する場合は次を実行します。
+
+```sh
+python3 markitdown_convert.py
+```
+
+- `output/rs_markitdown.json`：markitdown で変換した結果
 - `output/rs_diagnostics.json`：RS_Diag要件の抽出結果
 - `output/rs_trace.json`：RS_Mainトレース表の抽出結果
 
