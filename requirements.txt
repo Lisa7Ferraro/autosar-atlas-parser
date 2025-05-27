@@ -1,1 +1,2 @@
 PyMuPDF==1.23.7          # PDFからテキスト・図・表の抽出に使用（fitz）
+pydantic>=2.0
