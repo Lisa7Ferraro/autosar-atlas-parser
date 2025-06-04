@@ -62,14 +62,14 @@ python3 main.py
 ```
 
 
-- `src/pdf_parser.py`: PDF読み取り。PyMuPDFで取得し、必要に応じヘッダ領域を除外
+  - `autosar_atlas_parser/pdf_parser.py`: PDF 読み取り。PyMuPDF で取得し、必要に応じヘッダ領域を除外
 
-- `src/block_extractor.py`: タグ単位のテキストブロック抽出
-- `src/rs_parser.py`: 要件ブロックのパース
-- `src/output_writer.py`: JSONファイル書き出し
-- `src/trace_parser.py`: トレース表パース
-- `src/section_detector.py`: フォントサイズから見出しを抽出し各セクションを決定
-- `main.py`: セクション単位で処理を組み合わせて実行
+  - `autosar_atlas_parser/block_extractor.py`: タグ単位のテキストブロック抽出
+  - `autosar_atlas_parser/rs_parser.py`: 要件ブロックのパース
+  - `autosar_atlas_parser/output_writer.py`: JSON ファイル書き出し
+  - `autosar_atlas_parser/trace_parser.py`: トレース表パース
+  - `autosar_atlas_parser/section_detector.py`: フォントサイズから見出しを抽出し各セクションを決定
+  - `autosar_atlas_parser/main.py`: セクション単位で処理を組み合わせて実行
 
 ## ライセンス
 MIT License

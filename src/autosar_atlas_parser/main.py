@@ -1,10 +1,10 @@
 # coding: utf-8
-from pdf_parser import load_pdf
-from block_extractor import extract_blocks
-from rs_parser import parse_requirement_block
-from output_writer import write_json
-from trace_parser import parse_trace_table
-from section_detector import detect_sections
+from autosar_atlas_parser.pdf_parser import load_pdf
+from autosar_atlas_parser.block_extractor import extract_blocks
+from autosar_atlas_parser.rs_parser import parse_requirement_block
+from autosar_atlas_parser.output_writer import write_json
+from autosar_atlas_parser.trace_parser import parse_trace_table
+from autosar_atlas_parser.section_detector import detect_sections
 import argparse
 import os
 
