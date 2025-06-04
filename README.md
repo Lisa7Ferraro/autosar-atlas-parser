@@ -75,4 +75,4 @@ python3 main.py
 MIT License
 
 ## 貢献方法
-バグ報告・プルリクエスト歓迎します。詳細は`CONTRIBUTING.md`をご参照ください。
+バグ報告・プルリクエスト歓迎します。詳細は[CONTRIBUTING.md](CONTRIBUTING.md)をご参照ください。
