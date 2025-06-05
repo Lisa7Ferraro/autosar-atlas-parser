@@ -1,4 +1,4 @@
-from block_extractor import extract_blocks
+from autosar_atlas_parser.block_extractor import extract_blocks
 
 
 def test_extract_blocks_multi_page():
