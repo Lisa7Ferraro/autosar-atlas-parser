@@ -1,5 +1,5 @@
 import os
-from pdf_parser import load_pdf
+from autosar_atlas_parser.pdf_parser import load_pdf
 
 def test_load_pdf_clips_header(tmp_path):
     src_pdf = os.path.join(os.path.dirname(__file__), 'fixtures', 'header.pdf')

@@ -1,4 +1,4 @@
-from trace_parser import parse_trace_table
+from autosar_atlas_parser.trace_parser import parse_trace_table
 
 
 def test_parse_trace_table_mapping():
